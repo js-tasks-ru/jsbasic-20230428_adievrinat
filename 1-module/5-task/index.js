@@ -1,11 +1,7 @@
 function truncate(str, maxlength) {
-  if (!str && typeof str !== 'string') {
-    return console.error('truncate: the "str" argument is incorrect or undefined');
+  if (typeof str === 'string' && typeof maxlength === 'number' && Math.sign(maxlength) !== -1 && str.length > maxlength) {
+    return str.slice(0, maxlength - 1).padEnd(maxlength, '…');
   }
 
-  if (!maxlength || !Number(maxlength) || Math.sign(maxlength) === -1) {
-    return console.error('truncate: the "maxlength" argument is incorrect or undefined');
-  }
-
-  return str.length > maxlength ? str.slice(0, maxlength - 1).padEnd(maxlength, '…') : str;
+  return str;
 }

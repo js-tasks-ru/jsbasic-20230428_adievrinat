@@ -1,12 +1,11 @@
 function factorial(n) {
-  if (!n && n !== 0 || Number(n) !== n && n % 1 !== 0 || Math.sign(n) === -1) {
-    console.error('factorial: the "n" argument is incorrect');
+  if (typeof n !== 'number' || !Number.isInteger(n) || Math.sign(n) === -1) {
     return NaN;
   }
 
   let result = 1;
 
-  for (let num = 2; num <= n; num++) {
+  for (let num = n; num >= 2; num--) {
     result *= num;
   }
 
