@@ -1,5 +1,5 @@
 function isEmpty(obj) {
-  if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
     return false;
   }
 
