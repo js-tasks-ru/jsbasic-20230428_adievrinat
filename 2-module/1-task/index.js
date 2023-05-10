@@ -1,5 +1,5 @@
 function sumSalary(salaries) {
-  if (!salaries || Array.isArray(salaries)) {
+  if (Array.isArray(salaries)) {
     return 0;
   }
 
