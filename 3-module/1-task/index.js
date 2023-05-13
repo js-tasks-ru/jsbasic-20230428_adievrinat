@@ -3,13 +3,9 @@ function namify(users) {
     return users;
   }
 
-  const names = [];
-
-  for (let user of users) {
-    if (user.hasOwnProperty('name')) {
-      names.push(user.name);
+  return Array.from(users, item => {
+    if (item.hasOwnProperty('name')) {
+      return item.name;
     }
-  }
-
-  return names;
+  }).filter(arrayItem => arrayItem !== undefined);
 }
