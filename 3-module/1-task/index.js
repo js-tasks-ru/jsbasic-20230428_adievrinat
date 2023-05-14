@@ -3,5 +3,5 @@ function namify(users) {
     return users;
   }
 
-  return users.reduce((prev, user) => [...prev, user.name], []);
+  return users.map(user => user.name);
 }
