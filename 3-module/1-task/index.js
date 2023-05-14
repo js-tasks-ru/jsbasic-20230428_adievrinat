@@ -1,11 +1,7 @@
 function namify(users) {
-  if (!users || !Array.isArray(users)) {
+  if (!Array.isArray(users)) {
     return users;
   }
 
-  return Array.from(users, item => {
-    if (item.hasOwnProperty('name')) {
-      return item.name;
-    }
-  }).filter(arrayItem => arrayItem !== undefined);
+  return users.reduce((prev, user) => user.hasOwnProperty('name') ? [...prev, user.name] : prev, []);
 }

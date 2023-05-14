@@ -1,5 +1,5 @@
 function camelize(str) {
-  if (typeof str !== 'string' || !str) {
+  if (typeof str !== 'string' || !str || !str.includes('-')) {
     return str;
   }
 
