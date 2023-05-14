@@ -3,13 +3,17 @@ function camelize(str) {
     return str;
   }
 
-  const array = str.split('');
-
-  array.forEach((item, index) => {
-    if (item === '-' && array[index + 1] !== '-') {
+  const filtering = (item, index, array) => {
+    if (!item.localeCompare('-') && array[index + 1] && array[index + 1].localeCompare('-') !== 0) {
       array[index + 1] = array[index + 1].toUpperCase();
     }
-  });
 
-  return array.filter(item => item !== '-').join('');
+    if (item.localeCompare('-') !== 0) {
+      return item;
+    }
+  };
+
+  return str.split('')
+            .filter((item, index, array) => filtering(item, index, array))
+            .join('');
 }
