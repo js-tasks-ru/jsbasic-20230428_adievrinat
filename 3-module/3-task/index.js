@@ -3,17 +3,7 @@ function camelize(str) {
     return str;
   }
 
-  const filtering = (item, index, array) => {
-    if (!item.localeCompare('-') && array[index + 1] && array[index + 1].localeCompare('-') !== 0) {
-      array[index + 1] = array[index + 1].toUpperCase();
-    }
-
-    if (item.localeCompare('-') !== 0) {
-      return item;
-    }
-  };
-
-  return str.split('')
-            .filter((item, index, array) => filtering(item, index, array))
+  return str.split('-')
+            .map((item, index) => index ? item[0].toUpperCase() + item.slice(1) : item)
             .join('');
 }

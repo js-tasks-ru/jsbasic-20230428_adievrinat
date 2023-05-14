@@ -3,5 +3,5 @@ function namify(users) {
     return users;
   }
 
-  return users.reduce((prev, user) => user.hasOwnProperty('name') ? [...prev, user.name] : prev, []);
+  return users.reduce((prev, user) => [...prev, user.name], []);
 }
