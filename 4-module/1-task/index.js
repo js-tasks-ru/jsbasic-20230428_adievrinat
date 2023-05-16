@@ -1,4 +1,8 @@
 function makeFriendsList(friends) {
+  if (!Array.isArray(friends)) {
+    return friends;
+  }
+
   const ul = document.createElement('UL');
   let li;
   let friend;
