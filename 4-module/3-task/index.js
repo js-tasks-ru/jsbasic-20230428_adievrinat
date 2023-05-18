@@ -4,9 +4,10 @@ function highlight(table) {
   }
 
   const tBody = table.tBodies[0];
-  const ageIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Age'));
-  const genderIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Gender'));
-  const statusIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Status'));
+  const getIndex = name => Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes(name));
+  const ageIndex = getIndex('Age');
+  const genderIndex = getIndex('Gender');
+  const statusIndex = getIndex('Status');
 
   const addStatusClass = (row, statusIndex) => {
     if (row.cells[statusIndex].hasAttribute('data-available')) {
