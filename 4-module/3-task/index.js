@@ -27,8 +27,8 @@ function highlight(table) {
       tBody.rows[i].classList.add(tBody.rows[i].cells[genderIndex].textContent.includes('m') ? 'male' : 'female');
     }
 
-    if (isFinite(ageIndex) && ageIndex !== -1 && parseInt((tBody.rows[i].cells[ageIndex].textContent) &&
-      parseInt(tBody.rows[i].cells[ageIndex].textContent) < 18)) {
+    if (isFinite(ageIndex) && ageIndex !== -1 && parseInt(tBody.rows[i].cells[ageIndex].textContent) &&
+      parseInt(tBody.rows[i].cells[ageIndex].textContent) < 18) {
       tBody.rows[i].style.textDecoration = 'line-through';
     }
   }
