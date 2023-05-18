@@ -18,26 +18,18 @@ function highlight(table) {
     }
   };
 
-  const addGenderClass = (row, genderIndex) => {
-    row.classList.add(row.cells[genderIndex].textContent.includes('m') ? 'male' : 'female');
-  };
-
-  const textDecorationForAge = (row, value) => {
-    row.style.textDecoration = value;
-  };
-
   for (let i = 0; i < tBody.rows.length; i++) {
     if (isFinite(statusIndex) && genderIndex !== -1) {
       addStatusClass(tBody.rows[i], statusIndex);
     }
 
     if (isFinite(genderIndex) && genderIndex !== -1) {
-      addGenderClass(tBody.rows[i], genderIndex);
+      tBody.rows[i].classList.add(tBody.rows[i].cells[genderIndex].textContent.includes('m') ? 'male' : 'female');
     }
 
     if (isFinite(ageIndex) && ageIndex !== -1 && parseInt((tBody.rows[i].cells[ageIndex].textContent) &&
       parseInt(tBody.rows[i].cells[ageIndex].textContent) < 18)) {
-      textDecorationForAge(tBody.rows[i], 'line-through');
+      tBody.rows[i].style.textDecoration = 'line-through';
     }
   }
 }
