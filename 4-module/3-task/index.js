@@ -3,37 +3,27 @@ function highlight(table) {
     return table;
   }
 
-  const headRows = table.tHead.rows[0];
   const tBody = table.tBodies[0];
-  const ageIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Age'));
-  const genderIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Gender'));
-  const statusIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Status'));
+  const ageIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Age'));
+  const genderIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Gender'));
+  const statusIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Status'));
 
   const addStatusClass = (row, statusIndex) => {
-    const isHasAttribute = row.cells[statusIndex].hasAttribute('data-available');
-
-    if (isHasAttribute) {
+    if (row.cells[statusIndex].hasAttribute('data-available')) {
       const isDataAvailable = !row.cells[statusIndex].getAttribute('data-available').localeCompare('true');
-      const className = isDataAvailable ? 'available' : 'unavailable';
-      row.classList.add(className);
+
+      row.classList.add(isDataAvailable ? 'available' : 'unavailable');
     } else {
-      row.setAttribute('hidden', 'true');
+      row.setAttribute('hidden', true);
     }
   };
 
   const addGenderClass = (row, genderIndex) => {
-    const isMale = row.cells[genderIndex].textContent.includes('m');
-    const genderClass = isMale ? 'male' : 'female';
-
-    row.classList.add(genderClass);
+    row.classList.add(row.cells[genderIndex].textContent.includes('m') ? 'male' : 'female');
   };
 
-  const textDecorationForAge = (row, ageIndex) => {
-    const age = parseInt(row.cells[ageIndex].textContent);
-
-    if (age && age < 18) {
-      row.style.textDecoration = 'line-through';
-    }
+  const textDecorationForAge = (row, value) => {
+    row.style.textDecoration = value;
   };
 
   for (let i = 0; i < tBody.rows.length; i++) {
@@ -45,8 +35,9 @@ function highlight(table) {
       addGenderClass(tBody.rows[i], genderIndex);
     }
 
-    if (isFinite(ageIndex) && ageIndex !== -1) {
-      textDecorationForAge(tBody.rows[i], ageIndex);
+    if (isFinite(ageIndex) && ageIndex !== -1 && parseInt((tBody.rows[i].cells[ageIndex].textContent) &&
+      parseInt(tBody.rows[i].cells[ageIndex].textContent) < 18)) {
+      textDecorationForAge(tBody.rows[i], 'line-through');
     }
   }
 }
