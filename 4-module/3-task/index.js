@@ -19,15 +19,15 @@ function highlight(table) {
   };
 
   for (let i = 0; i < tBody.rows.length; i++) {
-    if (isFinite(statusIndex) && genderIndex !== -1) {
+    if (statusIndex !== -1) {
       addStatusClass(tBody.rows[i], statusIndex);
     }
 
-    if (isFinite(genderIndex) && genderIndex !== -1) {
+    if (genderIndex !== -1) {
       tBody.rows[i].classList.add(tBody.rows[i].cells[genderIndex].textContent.includes('m') ? 'male' : 'female');
     }
 
-    if (isFinite(ageIndex) && ageIndex !== -1 && parseInt(tBody.rows[i].cells[ageIndex].textContent) &&
+    if (ageIndex !== -1 && parseInt(tBody.rows[i].cells[ageIndex].textContent) &&
       parseInt(tBody.rows[i].cells[ageIndex].textContent) < 18) {
       tBody.rows[i].style.textDecoration = 'line-through';
     }
