@@ -1,30 +1,52 @@
 function highlight(table) {
-  if (!(table instanceof HTMLElement) && table.rows.length) {
+  if (!(table instanceof HTMLElement) || !table.rows.length) {
     return table;
   }
 
-  const ageIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Age'));
-  const genderIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Gender'));
-  const statusIndex = Array.from(table.tHead.rows[0].cells).findIndex(item => item.textContent.includes('Status'));
+  const headRows = table.tHead.rows[0];
+  const tBody = table.tBodies[0];
+  const ageIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Age'));
+  const genderIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Gender'));
+  const statusIndex = Array.from(headRows.cells).findIndex(item => item.textContent.includes('Status'));
 
-  for (let i = 0; i < table.tBodies[0].rows.length; i++) {
-    const isHasAttribute = table.tBodies[0].rows[i].cells[statusIndex].hasAttribute('data-available');
-    const isMale = table.tBodies[0].rows[i].cells[genderIndex].textContent.includes('m');
-    const genderClass = isMale ? 'male' : 'female';
-    const age = parseInt(table.tBodies[0].rows[i].cells[ageIndex].textContent);
+  const addStatusClass = (row, statusIndex) => {
+    const isHasAttribute = row.cells[statusIndex].hasAttribute('data-available');
 
     if (isHasAttribute) {
-      const isDataAvailable = !table.tBodies[0].rows[i].cells[statusIndex].getAttribute('data-available').localeCompare('true');
+      const isDataAvailable = !row.cells[statusIndex].getAttribute('data-available').localeCompare('true');
       const className = isDataAvailable ? 'available' : 'unavailable';
-      table.tBodies[0].rows[i].classList.add(className);
+      row.classList.add(className);
     } else {
-      table.tBodies[0].rows[i].setAttribute('hidden', 'true');
+      row.setAttribute('hidden', 'true');
+    }
+  };
+
+  const addGenderClass = (row, genderIndex) => {
+    const isMale = row.cells[genderIndex].textContent.includes('m');
+    const genderClass = isMale ? 'male' : 'female';
+
+    row.classList.add(genderClass);
+  };
+
+  const textDecorationForAge = (row, ageIndex) => {
+    const age = parseInt(row.cells[ageIndex].textContent);
+
+    if (age && age < 18) {
+      row.style.textDecoration = 'line-through';
+    }
+  };
+
+  for (let i = 0; i < tBody.rows.length; i++) {
+    if (isFinite(statusIndex) && genderIndex !== -1) {
+      addStatusClass(tBody.rows[i], statusIndex);
     }
 
-    table.tBodies[0].rows[i].classList.add(genderClass);
+    if (isFinite(genderIndex) && genderIndex !== -1) {
+      addGenderClass(tBody.rows[i], genderIndex);
+    }
 
-    if (age < 18) {
-      table.tBodies[0].rows[i].style.textDecoration = 'line-through';
+    if (isFinite(ageIndex) && ageIndex !== -1) {
+      textDecorationForAge(tBody.rows[i], ageIndex);
     }
   }
 }
