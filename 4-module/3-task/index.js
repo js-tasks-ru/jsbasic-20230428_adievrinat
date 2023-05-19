@@ -10,8 +10,8 @@ function highlight(table) {
   const statusIndex = getIndex('Status');
 
   const addStatusClass = (row, statusIndex) => {
-    if (row.cells[statusIndex].hasAttribute('data-available')) {
-      const isDataAvailable = !row.cells[statusIndex].getAttribute('data-available').localeCompare('true');
+    if ('available' in row.cells[statusIndex].dataset) {
+      const isDataAvailable = row.cells[statusIndex].dataset.available === 'true';
 
       row.classList.add(isDataAvailable ? 'available' : 'unavailable');
     } else {
