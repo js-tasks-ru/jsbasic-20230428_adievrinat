@@ -25,19 +25,19 @@ function initCarousel() {
   };
 
   const buttonDisplayControl = (rightBtnOptions, leftBtnOptions) => {
-    const [rightBtnCondition, rightBtnValue] = rightBtnOptions;
-    const [leftBtnCondition, leftBtnValue] = leftBtnOptions;
+    const [rightBtnCondition, rightBtnDisplayValue] = rightBtnOptions;
+    const [leftBtnCondition, leftBtnDisplayValue] = leftBtnOptions;
 
     if (rightBtnCondition) {
-      showOrHideBtn(carousel.querySelector(CSS + '__arrow_right'), rightBtnValue);
+      showOrHideBtn(carousel.querySelector(CSS + '__arrow_right'), rightBtnDisplayValue);
     }
 
     if (leftBtnCondition) {
-      showOrHideBtn(carousel.querySelector(CSS + '__arrow_left'), leftBtnValue);
+      showOrHideBtn(carousel.querySelector(CSS + '__arrow_left'), leftBtnDisplayValue);
     }
   };
 
-  const arrowRightClick = function () {
+  const swipeToNextSlide = function () {
     movement(activeSlideIndex < slides.length - 1, () => ++activeSlideIndex, 'next');
 
     buttonDisplayControl(
@@ -46,7 +46,7 @@ function initCarousel() {
     );
   };
 
-  const arrowLeftClick = function () {
+  const swipeToPrevSlide = function () {
     movement(activeSlideIndex > 0, () => --activeSlideIndex, 'prev');
 
     buttonDisplayControl(
@@ -57,6 +57,6 @@ function initCarousel() {
 
   container.style.transform = 'translateX(0)';
   carousel.querySelector(CSS + '__arrow_left').style.display = 'none';
-  carousel.querySelector(CSS + '__arrow_right').addEventListener('click', arrowRightClick);
-  carousel.querySelector(CSS + '__arrow_left').addEventListener('click', arrowLeftClick);
+  carousel.querySelector(CSS + '__arrow_right').addEventListener('click', swipeToNextSlide);
+  carousel.querySelector(CSS + '__arrow_left').addEventListener('click', swipeToPrevSlide);
 }
