@@ -19,24 +19,18 @@ function initCarousel() {
       swipe();
     }
   };
-
-  const showOrHideBtn = (btn, displayValue) => {
-    btn.style.display = displayValue;
+  const showOrHideBtn = (condition, arrowType, value) => {
+    if (condition) {
+      carousel.querySelector(CSS + arrowType).style.display = value;
+    }
   };
-
   const buttonDisplayControl = (rightBtnOptions, leftBtnOptions) => {
     const [rightBtnCondition, rightBtnDisplayValue] = rightBtnOptions;
     const [leftBtnCondition, leftBtnDisplayValue] = leftBtnOptions;
 
-    if (rightBtnCondition) {
-      showOrHideBtn(carousel.querySelector(CSS + '__arrow_right'), rightBtnDisplayValue);
-    }
-
-    if (leftBtnCondition) {
-      showOrHideBtn(carousel.querySelector(CSS + '__arrow_left'), leftBtnDisplayValue);
-    }
+    showOrHideBtn(rightBtnCondition, '__arrow_right', rightBtnDisplayValue);
+    showOrHideBtn(leftBtnCondition, '__arrow_left', leftBtnDisplayValue);
   };
-
   const swipeToNextSlide = function () {
     movement(activeSlideIndex < slides.length - 1, () => ++activeSlideIndex, 'next');
 
@@ -45,7 +39,6 @@ function initCarousel() {
       [activeSlideIndex > 0, '']
     );
   };
-
   const swipeToPrevSlide = function () {
     movement(activeSlideIndex > 0, () => --activeSlideIndex, 'prev');
 
