@@ -1,6 +1,6 @@
 export default class UserTable {
   constructor(rows) {
-    this.elem = this.elem = Array.isArray(rows) ? this.#createTable(rows) : rows;
+    this.elem = Array.isArray(rows) ? this.#createTable(rows) : rows;
   }
 
   #createBody (rows) {
