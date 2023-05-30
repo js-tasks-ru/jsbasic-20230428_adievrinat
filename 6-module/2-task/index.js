@@ -1,4 +1,8 @@
-import createElement from "../../assets/lib/create-element";
+function createElement(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.firstElementChild;
+}
 
 export default class ProductCard {
   constructor(product) {
