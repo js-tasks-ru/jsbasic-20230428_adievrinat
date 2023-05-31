@@ -8,28 +8,15 @@ export default class ProductCard {
 
   #createProductCart(product) {
     const elem = createElement(this.#getTemplate(product));
-    const button = this.#createBtn();
 
-    button.addEventListener('click', function () {
+    elem.querySelector('.card__button').addEventListener('click', function () {
       elem.dispatchEvent(new CustomEvent("product-add", {
         detail: product.id,
         bubbles: true
       }));
     });
 
-    elem.querySelector('.card__body').appendChild(button);
-
     return elem;
-  }
-
-  #createBtn() {
-    const button = document.createElement('BUTTON');
-
-    button.setAttribute('type', 'button');
-    button.classList.add('card__button');
-    button.innerHTML = '<img src="/assets/images/icons/plus-icon.svg" alt="icon">';
-
-    return button;
   }
 
   #getTemplate(data) {
@@ -40,6 +27,9 @@ export default class ProductCard {
       </div>
       <div class="card__body">
         <div class="card__title">${data.name}</div>
+        <button type="button" class="card__button">
+            <img src="/assets/images/icons/plus-icon.svg" alt="icon">
+        </button>
       </div>
     </div>`;
   }
