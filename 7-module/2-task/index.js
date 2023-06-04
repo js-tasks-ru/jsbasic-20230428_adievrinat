@@ -3,11 +3,6 @@ import createElement from '../../assets/lib/create-element.js';
 export default class Modal {
   #modal = createElement(this.#geBasicTemplate());
 
-  constructor() {
-    this.title = '';
-    this.body = null;
-  }
-
   setTitle(title) {
     this.#modal.querySelector('.modal__title').textContent = title;
   }
