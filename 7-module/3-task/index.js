@@ -25,9 +25,7 @@ export default class StepSlider {
 
   #initSlider() {
     const slider = this.#getTemplate(this.#steps, this.value);
-
     this.#sliderLogic(slider);
-
     return slider;
   }
 
@@ -53,12 +51,12 @@ export default class StepSlider {
 
       for (let i = 0; i < this.#steps; i++) {
         if (i > 0 && e.clientX < slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left) {
-          const firstPoint = slider.querySelectorAll('.slider__steps span')[i - 1].getBoundingClientRect().left;
-          const secondPoint = slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left;
-          const condition = e.clientX < firstPoint + ((secondPoint - firstPoint) / 2);
-          const point = condition ? firstPoint : secondPoint;
+          const firstCoordinate = slider.querySelectorAll('.slider__steps span')[i - 1].getBoundingClientRect().left;
+          const secondCoordinate = slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left;
+          const condition = e.clientX < firstCoordinate + ((secondCoordinate - firstCoordinate) / 2);
+          const stepCoordinate = condition ? firstCoordinate : secondCoordinate;
 
-          this.#stepActivation(slider, thumb, progressBar, condition ? i - 1 : i, point, sliderCoords);
+          this.#stepActivation(slider, thumb, progressBar, condition ? i - 1 : i, stepCoordinate, sliderCoords);
           break;
         }
       }
