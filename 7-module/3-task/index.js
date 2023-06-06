@@ -7,7 +7,6 @@ function createElement(html) {
 export default class StepSlider {
   #steps = 0;
   #value = 0;
-  #slider = null;
   elem = null;
 
   constructor({ steps, value = 0 }) {
@@ -25,11 +24,11 @@ export default class StepSlider {
   }
 
   #initSlider() {
-    this.#slider = this.#getTemplate(this.#steps, this.value);
+    const slider = this.#getTemplate(this.#steps, this.value);
 
-    this.#sliderLogic(this.#slider);
+    this.#sliderLogic(slider);
 
-    return this.#slider;
+    return slider;
   }
 
   #sliderLogic(slider) {
@@ -45,15 +44,13 @@ export default class StepSlider {
 
       const sliderCoords = slider.getBoundingClientRect();
 
-      // Клип по шагу
       if (e.target.tagName === 'SPAN' && e.target.className !== 'slider__value') {
         const stepCoordinate = slider.querySelectorAll('.slider__steps span')[+e.target.dataset.step].getBoundingClientRect().left;
 
-        this.#activationStep(slider, thumb, progressBar, +e.target.dataset.step, stepCoordinate, sliderCoords);
+        this.#stepActivation(slider, thumb, progressBar, +e.target.dataset.step, stepCoordinate, sliderCoords);
         return false;
       }
 
-      // Клик по сегменту
       for (let i = 0; i < this.#steps; i++) {
         if (i > 0 && e.clientX < slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left) {
           const firstPoint = slider.querySelectorAll('.slider__steps span')[i - 1].getBoundingClientRect().left;
@@ -61,19 +58,15 @@ export default class StepSlider {
           const condition = e.clientX < firstPoint + ((secondPoint - firstPoint) / 2);
           const point = condition ? firstPoint : secondPoint;
 
-          this.#activationStep(slider, thumb, progressBar, condition ? i - 1 : i, point, sliderCoords);
+          this.#stepActivation(slider, thumb, progressBar, condition ? i - 1 : i, point, sliderCoords);
           break;
         }
       }
     });
   }
 
-  #getCoordinate (stepCoordinate, sliderCoords, slider) {
-    return Math.round((stepCoordinate - sliderCoords.left) / (slider.clientWidth / 100)) + '%';
-  }
-
-  #activationStep(slider, thumb, progressBar, step, stepCoordinate, sliderCoords) {
-    const coordinate = this.#getCoordinate(stepCoordinate, sliderCoords, slider);
+  #stepActivation(slider, thumb, progressBar, step, stepCoordinate, sliderCoords) {
+    const coordinate = Math.round((stepCoordinate - sliderCoords.left) / (slider.clientWidth / 100)) + '%';
     this.#value = step;
 
     this.#changePosition(thumb, progressBar, slider, coordinate, step);
@@ -92,17 +85,16 @@ export default class StepSlider {
   }
 
   #getTemplate(steps, value) {
-    const slider = createElement(this.#geBasicTemplate());
-    let span = '';
+    const sliderTemplate = createElement(this.#geBasicTemplate());
 
-    slider.querySelector('.slider__value').textContent = value;
+    sliderTemplate.querySelector('.slider__value').textContent = value;
 
     for (let i = 0; i < steps; i++) {
-      span = i ? `<span data-step="${i}"></span>` : `<span class="slider__step-active" data-step="${i}"></span>`;
-      slider.querySelector('.slider__steps').insertAdjacentHTML('beforeend', span);
+      let span = i ? `<span data-step="${i}"></span>` : `<span class="slider__step-active" data-step="${i}"></span>`;
+      sliderTemplate.querySelector('.slider__steps').insertAdjacentHTML('beforeend', span);
     }
 
-    return slider;
+    return sliderTemplate;
   }
 
   #geBasicTemplate() {
