@@ -19,12 +19,8 @@ export default class StepSlider {
     this.elem = this.#initSlider();
   }
 
-  get value() {
-    return this.#value;
-  }
-
   #initSlider() {
-    const slider = this.#getTemplate(this.#steps, this.value);
+    const slider = this.#getTemplate(this.#steps, this.#value);
     this.#sliderLogic(slider);
     return slider;
   }
@@ -36,50 +32,27 @@ export default class StepSlider {
     progressBar.style.width = '0';
 
     slider.addEventListener('click', (e) => {
-      if (e.target.closest('.slider__thumb')) {
+      if (e.target.closest('.slider__thumb') || e.target.className === 'slider__value') {
         return false;
       }
 
       const sliderCoords = slider.getBoundingClientRect();
+      const activeStep = Math.round((e.clientX - sliderCoords.left) / (slider.clientWidth / (this.#steps - 1)));
+      this.#value = activeStep;
+      this.#changePosition(thumb, progressBar, slider, activeStep);
 
-      if (e.target.tagName === 'SPAN' && e.target.className !== 'slider__value') {
-        const stepCoordinate = slider.querySelectorAll('.slider__steps span')[+e.target.dataset.step].getBoundingClientRect().left;
-
-        this.#stepActivation(slider, thumb, progressBar, +e.target.dataset.step, stepCoordinate, sliderCoords);
-        return false;
-      }
-
-      for (let i = 0; i < this.#steps; i++) {
-        if (i > 0 && e.clientX < slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left) {
-          const firstCoordinate = slider.querySelectorAll('.slider__steps span')[i - 1].getBoundingClientRect().left;
-          const secondCoordinate = slider.querySelectorAll('.slider__steps span')[i].getBoundingClientRect().left;
-          const condition = e.clientX < firstCoordinate + ((secondCoordinate - firstCoordinate) / 2);
-          const stepCoordinate = condition ? firstCoordinate : secondCoordinate;
-
-          this.#stepActivation(slider, thumb, progressBar, condition ? i - 1 : i, stepCoordinate, sliderCoords);
-          break;
-        }
-      }
+      slider.dispatchEvent(new CustomEvent('slider-change', {
+        detail: this.#value,
+        bubbles: true
+      }));
     });
   }
 
-  #stepActivation(slider, thumb, progressBar, step, stepCoordinate, sliderCoords) {
-    const coordinate = Math.round((stepCoordinate - sliderCoords.left) / (slider.clientWidth / 100)) + '%';
-    this.#value = step;
-
-    this.#changePosition(thumb, progressBar, slider, coordinate, step);
-
-    slider.dispatchEvent(new CustomEvent('slider-change', {
-      detail: this.value,
-      bubbles: true
-    }));
-  }
-
-  #changePosition(thumb, progressBar, slider, coordinate, activeIndex) {
-    thumb.style.left = progressBar.style.width = coordinate;
+  #changePosition(thumb, progressBar, slider, activeStep) {
+    thumb.style.left = progressBar.style.width = (100 / (this.#steps - 1)) * activeStep + '%';
     slider.querySelector('.slider__step-active').classList.remove('slider__step-active');
-    slider.querySelectorAll('.slider__steps span')[activeIndex].classList.add('slider__step-active');
-    slider.querySelector('.slider__value').textContent = activeIndex;
+    slider.querySelectorAll('.slider__steps span')[activeStep].classList.add('slider__step-active');
+    slider.querySelector('.slider__value').textContent = this.#value;
   }
 
   #getTemplate(steps, value) {
