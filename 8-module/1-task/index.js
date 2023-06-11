@@ -52,7 +52,7 @@ export default class CartIcon {
   }
 
   getLeftPosition() {
-    if ((document.documentElement.clientWidth - document.querySelector('.container').getBoundingClientRect().right + 20) < (this.elem.offsetWidth + 10)) {
+    if ((document.documentElement.clientWidth) - (document.querySelector('.container').getBoundingClientRect().right + 20) < (this.elem.offsetWidth + 10)) {
       return document.documentElement.clientWidth - (this.elem.offsetWidth + 10);
     }
     return document.querySelector('.container').getBoundingClientRect().right + 20;
