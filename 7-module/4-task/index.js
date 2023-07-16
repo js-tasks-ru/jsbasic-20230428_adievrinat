@@ -29,7 +29,7 @@ export default class StepSlider {
     const thumb = slider.querySelector('.slider__thumb');
     const progressBar = slider.querySelector('.slider__progress');
 
-    progressBar.style.width = '0';
+    thumb.style.left = progressBar.style.width = (100 / (this.#steps - 1)) * this.#value + '%';
 
     this.#events(slider, thumb, progressBar);
   }
@@ -100,6 +100,7 @@ export default class StepSlider {
     thumb.style.left = progressBar.style.width = distance + '%';
     this.#value = value;
     this.#activationStepInDOM(slider, this.#value);
+    slider.querySelector('.slider__value').textContent = value;
   }
 
   #events(slider, thumb, progressBar) {
